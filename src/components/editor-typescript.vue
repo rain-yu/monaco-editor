@@ -1,5 +1,5 @@
 <template>
-  <editor  language="typescript" :width="width" :height="height" :completion="completion"></editor>
+  <editor ref="editor" language="typescript" :width="width" :height="height" :value="value" :completion="completion" @change="handleChange" @blur="handleBlur"></editor>
 </template>
 
 <script>
@@ -119,8 +119,19 @@ dialog.open(options);
       }
     }
   },
-  mounted () {
-
+  methods: {
+    handleBlur (evt) {
+      this.$emit('blur', evt)
+    },
+    handleChange (evt) {
+      this.$emit('change', evt)
+    },
+    getValue () {
+      return this.$refs.editor.getValue()
+    },
+    validate () {
+      return this.$refs.editor.validate()
+    }
   }
 }
 </script>

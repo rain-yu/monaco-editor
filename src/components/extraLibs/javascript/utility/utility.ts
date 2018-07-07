@@ -1,4 +1,4 @@
-declare class Utility {
+declare class utility {
   /**
    * 判断对象是否为null或者undefined
    * @private

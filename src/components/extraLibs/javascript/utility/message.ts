@@ -1,4 +1,4 @@
-declare class Message {
+declare class message {
   /**
    * 订阅事件
    * @function

@@ -3,7 +3,6 @@
 </template>
 <script>
 import * as monaco from 'monaco-editor'
-
 export default {
   name: 'Editor',
   props: {
@@ -41,25 +40,21 @@ export default {
   },
   mounted () {
     this.editor = monaco.editor.create(this.$el, {
-      language: this.language,
-      theme: "vs-dark"
+      value: this.value,
+      language: this.language
     })
     monaco.languages.registerCompletionItemProvider(this.language, {
       provideCompletionItems: () => {
         return this.completion
       }
     })
-
-      // monaco.editor.setModelMarkers(this.editor.getModel(), 'test', [{
-      //       startLineNumber: 2,
-      //       startColumn: 1,
-      //       endLineNumber: 1000,
-      //       endColumn: 1000,
-      //       message: "a message",
-      //       severity: monaco.Severity.Error
-      //   }])
-
-    // this.editor.setValue(this.value, false)
+    this.editor.setValue(this.value, false)
+    this.editor.onDidChangeModelContent((e) => {
+      this.setValue(this.editor.getValue(), true, false)
+    })
+    this.editor.onDidBlurEditor((e) => {
+      this.$emit('blur', e)
+    })
   },
   methods: {
     renderStyle () {
@@ -68,14 +63,18 @@ export default {
         height: this.height
       }
     },
-    setValue (value) {
+    setValue (value, fireEvent, synch) {
       value = String(value).trim()
       if (this.innerValue === value) {
         return
       }
       this.innerValue = value
-      this.editor.setValue(value)
-      this.$emit('change', value)
+      if (synch !== false) {
+        this.editor.setValue(value)
+      }
+      if (fireEvent !== false) {
+        this.$emit('change', value)
+      }
     },
     getValue () {
       return this.innerValue
@@ -83,6 +82,23 @@ export default {
     setReadOnly (readonly) {
       this.editor.updateOptions({
         readOnly: !!readonly
+      })
+    },
+    getModelMarkers () {
+      return monaco.editor.getModelMarkers()
+    },
+    validate () {
+      return new Promise((resolve, reject) => {
+        var errors = this.getModelMarkers()
+        if (!errors.length) {
+          resolve()
+        } else {
+          var first = errors[0]
+          reject({
+            message: first.message,
+            number: first.endLineNumber
+          })
+        }
       })
     }
   },
