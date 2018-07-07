@@ -7,30 +7,6 @@ import * as monaco from 'monaco-editor'
 import Editor from './editor'
 import './extraLibs'
 
-// monaco.languages.registerCompletionItemProvider('typescript', {
-//     provideCompletionItems: function(model, position) {
-//         console.log(position)
-//         // find out if we are completing a property in the 'dependencies' object.
-//         var textUntilPosition = model.getValueInRange({startLineNumber: 1, startColumn: 1, endLineNumber: position.lineNumber, endColumn: position.column});
-//         console.log(textUntilPosition)
-//         var match = textUntilPosition.match(/"dependencies"\s*:\s*{\s*("[^"]*"\s*:\s*"[^"]*"\s*,\s*)*("[^"]*)?$/);
-//         //if (match) {
-//             //return createDependencyProposals();
-//         //}
-//         return [];
-//     }
-// });
-// monaco.languages.registerFoldingRangeProvider('typescript', {
-   
-//     provideCodeActions: function(model, range) {
-//         return [
-//             {
-//                 title: "action title"
-//             }
-//         ]
-//     }
-// });
-
 var Snippets = {
 
 }
@@ -94,28 +70,42 @@ dialog.open(options);
               }
           },
           {
-          label: 'simpleText',
-          kind: monaco.languages.CompletionItemKind.Text
-        }, {
-          label: 'testing',
-          kind: monaco.languages.CompletionItemKind.Keyword,
-          insertText: {
-            value: 'testing(${1:condition})'
-          }
-        }, {
-          label: 'ifelse',
-          kind: monaco.languages.CompletionItemKind.Snippet,
-          insertText: {
-            value: [
-              'if (${1:condition}) {',
-              '\t$0',
-              '} else {',
-              '\t',
-              '}'
-            ].join('\n')
-          },
-          documentation: 'If-Else Statement'
-        }]
+            label: 'simpleText',
+            kind: monaco.languages.CompletionItemKind.Text
+          }, {
+            label: 'testing',
+            kind: monaco.languages.CompletionItemKind.Keyword,
+            insertText: {
+              value: 'testing(${1:condition})'
+            }
+          }, {
+            label: 'ifelse',
+            kind: monaco.languages.CompletionItemKind.Snippet,
+            insertText: {
+              value: [
+                'if (${1:condition}) {',
+                '\t$0',
+                '} else {',
+                '\t',
+                '}'
+              ].join('\n')
+            },
+            documentation: 'If-Else Statement'
+          }, {
+             label:'dialogConfirm',
+              kind: monaco.languages.CompletionItemKind.Keyword,
+              insertText:{
+                 value: `
+dialog.confirm('确定删除吗？', '确定', function(action){
+  if (action === 'ok') {
+
+  } else {
+
+  }
+})
+`
+              }
+          }]
       }
     }
   },
