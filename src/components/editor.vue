@@ -49,6 +49,16 @@ export default {
         return this.completion
       }
     })
+
+      // monaco.editor.setModelMarkers(this.editor.getModel(), 'test', [{
+      //       startLineNumber: 2,
+      //       startColumn: 1,
+      //       endLineNumber: 1000,
+      //       endColumn: 1000,
+      //       message: "a message",
+      //       severity: monaco.Severity.Error
+      //   }])
+
     // this.editor.setValue(this.value, false)
   },
   methods: {

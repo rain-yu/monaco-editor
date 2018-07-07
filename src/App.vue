@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <editor-typescript width="100%" height="300px"></editor-typescript>
+    <editor-typescript width="100%" height="500px"></editor-typescript>
   </div>
 </template>
 
